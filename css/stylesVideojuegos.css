@@ -1,0 +1,111 @@
+
+html{
+  font-family: 'Raleway', sans-serif;
+    }
+    body{
+      margin: 0px;
+      background-color: #efefef;
+    }
+    #titulo{
+      color: blueviolet;
+      text-align: center;
+      background-color: #ddd;
+    }
+    #position{
+    
+     left: 25px;
+    }
+    .nav{
+      background-color: purple;
+       border-radius: 100px;
+       padding-bottom: 5px;
+    }
+    
+    .nav-link{
+      border: 0px !important;
+    }
+    
+    .nav-link:hover{
+    
+       border-bottom: 2px solid white !important;
+       border-right: 0px !important;
+       border-top: 0px !important;
+        border-left: 0px !important;
+       color: white !important; 
+    }
+   
+  .text-center{
+    font-weight: bold;
+  }
+  
+  #title-main-page{
+    background-color: #2f373a;
+  }
+  
+  #title{
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  
+  
+  #header{
+     background-color: #2f373a;
+  }
+
+.material-symbols-rounded {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 500,
+  'GRAD' 0,
+  'opsz' 48
+}
+
+#user_icon{
+font-size: 30px;
+color: white;
+}
+
+
+
+#user-modal{
+  background-color: transparent;
+  border: none;
+}
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 700,
+  'GRAD' 0,
+  'opsz' 48
+}
+#cesta{
+  font-size: 30px;
+  color: white;
+}
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 700,
+  'GRAD' 0,
+  'opsz' 48
+}
+#settings{
+  font-size: 30px;
+  color: white;
+}
+.card-image{
+ width: 300px;
+ height: 300px;
+ object-fit:contain; 
+}
+table {
+  width: 100%;
+  border: 1px solid #2f373a;
+}
+th, td {
+  width: 25%;
+  text-align: left;
+  vertical-align: top;
+  border: 1px solid #2f373a;
+}
+

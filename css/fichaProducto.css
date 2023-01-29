@@ -1,0 +1,77 @@
+
+#header{
+    background-color: #2f373a;
+  }
+#title{
+    color: white;
+}
+#user_icon{
+    font-size: 30px;
+    color: white;
+    }
+
+    #user-modal{
+      background-color: transparent;
+      border: none;
+    }
+    .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 700,
+        'GRAD' 0,
+        'opsz' 48
+      }
+      #cesta{
+        font-size: 30px;
+        color: white;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 700,
+        'GRAD' 0,
+        'opsz' 48
+      }
+
+    .pepe{
+      border-right: 1px solid black;
+      height: 1000px;
+      border-top: 1px solid black;
+    }
+
+    #lista1{
+      padding-left: 20px;
+    }
+#lista1 li {
+  display:inline;
+  padding-left:85px;
+  padding-right:85px;
+  border: 1px solid;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+}
+
+#lista1 li > a {
+  list-style: none;
+  color: black;
+
+}
+
+#lista1 > li > a:link, #lista1 > li > a:visited, #lista1 > li > a:active {
+  text-decoration:none;
+}
+
+#valoracion{
+  padding-left: 150px;
+}
+.introducircomentario{
+  padding-top: 20px;
+}
+html{
+  font-family: 'Raleway', sans-serif;
+  }
+
+
+
+  
