@@ -88,3 +88,4 @@ const loginWithGoogle = async() => {
 
 document.getElementById('logGoogle').addEventListener('click', loginWithGoogle)
 
+
