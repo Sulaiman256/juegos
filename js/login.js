@@ -7,11 +7,33 @@ window.addEventListener('load', async() => {
     if (await supabase.auth.getUser()) {
         const { data: { user } } = await supabase.auth.getUser()
 
-        console.log( user)
+        console.log(user)
         
     }
-   
+    try{
+        const user = supabase.auth.user()
+        if(user){
+            const {id, app_metadata, user_metadata} = user
+            if(app_metadata.provider.include('google')){
+                const {nombre} = user_metadata
+                return {username: nombre}
+            }
+            const {data , error, status} = await supabase
+            .from('usuarios')
+            .select('id, nombre')
+            .eq('id', id)
+            .single()
 
+            if(error && status === 406) throw new Error('un error ha ocurrido')
+            return{username:data.nombre}
+        
+        }
+
+    }catch (error){
+
+    }
+   
+ 
  });
  
 
