@@ -32,8 +32,6 @@ window.addEventListener('load', async() => {
     }catch (error){
 
     }
-   
- 
  });
  
 
@@ -109,5 +107,6 @@ const loginWithGoogle = async() => {
 }
 
 document.getElementById('logGoogle').addEventListener('click', loginWithGoogle)
+
 
 
