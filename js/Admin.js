@@ -30,7 +30,7 @@ const datosProductos = async () => {
                       <td class="text-center">${data[x].platforms.plataforma}</td>
                       <td class="text-center">${data[x].imagen}</td>
                       <td class="text-center">${data[x].precio}</td>
-                      <td class="text-center"><button type="button" data-id="${data[x].id}" class="btn btn-danger">Borrar</button>
+                      <td class="text-center"><button type="button" id="delete-button" onclick="deleteProducto(${data[x].id})" class="btn btn-danger">Borrar</button>
                       </button>
                       </td>
                       <td class="text-center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar" onclick="datosCampos(${data[x].id})">Editar</button>  
@@ -47,13 +47,23 @@ const datosProductos = async () => {
 
 datosProductos()
 
-const borrarProductos = async () => { 
-const { error } = await supabase
-.from('productos')
-.delete()
+async function deleteproduct(id){
+  const {error} = await supabase.from('productos')
+  .delete()
+  .eq("id" , id)
+  if (error) {
+    console.log(error)
+    return false
+}
 }
 
-  
+function deleteProducto(id){
+  const deleteButton = document.getElementById("delete-button");
+  deleteButton.addEventListener("click", function(){
+    deleteproduct(id).then(res => console.log(res))
+  })
+ 
+}
 
 
 
