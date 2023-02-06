@@ -50,22 +50,43 @@ datosProductos()
 async function deleteproduct(id){
   const {error} = await supabase.from('productos')
   .delete()
-  .eq("id" , id)
+  .eq("id", id)
   if (error) {
     console.log(error)
-    return false
+    return
 }
+
+datosProductos()
 }
 
 function deleteProducto(id){
   const deleteButton = document.getElementById("delete-button");
-  deleteButton.addEventListener("click", function(){
-    deleteproduct(id).then(res => console.log(res))
-  })
+  deleteButton.addEventListener("click", deleteproduct(id))
+  console.log(id)
+  
+}
+deleteproduct()
  
+
+async function insertProduct(nombre, plataforma,imagen, precio){
+const { error } = await supabase
+  .from('productos')
+  .insert({ nombre:nombre, plataforma:plataforma, imagen:imagen, precio:precio})
+  if (error) {
+    console.log(error)
+    return false
+  }
+
+  return true
 }
 
+ function insertProducto(nombre, plataforma, imagen, precio){
+  const insertButton = document.getElementById("insertButton");
+   insertButton.addEventListener("click", insertProduct(nombre, plataforma,imagen, precio))
+   console.log(nombre)
+ }
 
+ insertProduct()
 
 
 
@@ -316,24 +337,24 @@ function deleteProducto(id){
 // }
 
 // function onSubmit (e){
-//   e.preventDefault()
-//   let name = document.getElementById("name").value
-//   let plataforma = document.getElementById("plataforma").value
-//   let imagen = document.getElementById("imagen").value
-//   let precio = document.getElementById("precio").value
+// e.preventDefault()
+//  let name = document.getElementById("name").value
+//  let plataforma = document.getElementById("plataforma").value
+//  let imagen = document.getElementById("imagen").value
+//  let precio = document.getElementById("precio").value
 
-//   console.log(name)
+// console.log(name)
 
-//   let product = {  
-//     id: 25,
-//     nombre:name,
-//     plataforma:plataforma,
-//     imagen:imagen,
-//     precio:precio
+// let product = {  
+//  id: 25,
+// nombre:name,
+// plataforma:plataforma,
+// imagen:imagen,
+//  precio:precio
 //   }
 
-//  BD.push(product)
-//   displayHTML(BD)
+// BD.push(product)
+// displayHTML(BD)
 // }
 
 // function datosCampos(id){
