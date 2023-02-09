@@ -9,14 +9,6 @@ const toast = () => {
   toast.show()
 }
 
-
-
- 
-
-
-  
-
-
 const signUp = async(name, email, password) => {
     const { error } = await supabase
   .from('usuarios')

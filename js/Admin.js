@@ -1,6 +1,6 @@
-
 var SUPABASE_URL ='https://hqrvipeczxkthmaeywym.supabase.co'
 var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxcnZpcGVjenhrdGhtYWV5d3ltIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzIzMTE2NTgsImV4cCI6MTk4Nzg4NzY1OH0.hF4y8SHqqGttHJW7PXRY51mna3xubSPB-OKbGOV1JB0'
+
 
 var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
 const url = new URL(window.location.href);
@@ -47,46 +47,110 @@ const datosProductos = async () => {
 
 datosProductos()
 
-async function deleteproduct(id){
+ async function deleteproduct(id){
   const {error} = await supabase.from('productos')
-  .delete()
-  .eq("id", id)
+   .delete() 
+   .eq("id", id)
   if (error) {
     console.log(error)
     return
-}
+ }
 
-datosProductos()
-}
+ datosProductos()
+ }
 
-function deleteProducto(id){
-  const deleteButton = document.getElementById("delete-button");
+ function deleteProducto(id){
+   const deleteButton = document.getElementById("delete-button");
   deleteButton.addEventListener("click", deleteproduct(id))
-  console.log(id)
+   console.log(id)
   
-}
-deleteproduct()
- 
+ }
+ deleteproduct()
 
-async function insertProduct(nombre, plataforma,imagen, precio){
-const { error } = await supabase
+
+ const toast = () => {
+  const toastLiveExample = document.getElementById('liveToast')
+  const toast = new bootstrap.Toast(toastLiveExample)
+  toast.show()
+ }
+async function insertProduct(nombre, plataforma, imagen, precio){
+  const { error } = await supabase
   .from('productos')
-  .insert({ nombre:nombre, plataforma:plataforma, imagen:imagen, precio:precio})
+  .insert({ nombre:nombre,plataforma:plataforma,imagen:imagen,precio:precio })
   if (error) {
     console.log(error)
     return false
   }
-
   return true
 }
 
- function insertProducto(nombre, plataforma, imagen, precio){
-  const insertButton = document.getElementById("insertButton");
-   insertButton.addEventListener("click", insertProduct(nombre, plataforma,imagen, precio))
-   console.log(nombre)
- }
 
- insertProduct()
+const checkProductExists = async(nombre, plataforma,imagen,precio) => {
+  const { data, error } = await supabase
+  .from('productos')
+  .select('*')
+  .match({nombre:nombre, plataforma:plataforma, imagen:imagen, precio:precio })
+  .maybeSingle()
+
+  if (error) {
+      console.log(error)
+      return false
+  }
+
+  if (data == null) {
+      return false
+  }
+
+  return data
+}
+
+
+
+
+const handleregisterProduct = async(ProductExists, nombre, plataforma, imagen, precio) => {
+  console.log(ProductExists)
+  if( ProductExists === false){
+
+    const signup = await insertProduct(nombre, plataforma, imagen, precio)
+
+    if (signup === true) {   //alert alert-success
+      document.querySelector('.toast-body').innerHTML = '<div class="alert alert-success">Cuenta creada!!!</div>'
+      return
+    }
+    
+    document.querySelector('.toast-body').innerHTML =  '<div class="alert alert-danger">No ha sido posible crearse!!!</div>'
+
+    return
+    
+  }
+
+  document.querySelector('.toast-body').innerHTML = '<div class="alert alert-danger">Los datos ya estan registrados!!!</div>'
+   
+} 
+
+async function InsertProduct(event){
+  event.preventDefault()
+    let name = document.getElementById("name").value
+    let plataforma = document.getElementById("plataforma").value
+    let imagen = document.getElementById("imagen").value
+    let precio = document.getElementById("precio").value
+
+    
+    const ProductExists = await checkProductExists(name, plataforma, imagen, precio)
+
+    await handleregisterProduct(ProductExists, name, plataforma, imagen, precio)
+    toast()
+    
+}
+
+
+
+
+
+
+
+
+ 
 
 
 

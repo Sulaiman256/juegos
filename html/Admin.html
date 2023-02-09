@@ -85,7 +85,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <form id="frmproductos">
+                    <form id="frmproductos" onsubmit="InsertProduct(event)">
                       <div class="mb-3">
                         <label for="name" class="form-label">Nombre del producto</label>
                         <input type="text" class="form-control" id="name" aria-describedby="emailHelp">
@@ -110,7 +110,7 @@
                         <input type="checkbox" class="form-check-input" id="exampleCheck1">
                         <label class="form-check-label" for="exampleCheck1">Recordar</label>
                       </div>
-                      <button id="insertButton" type="button" class="btn btn-primary" onclick="insertProducto()">Agregar</button>
+                      <button type="submit" class="btn btn-primary">Agregar</button>
                     </form>
                   </div>
                   <div class="modal-footer">
@@ -129,7 +129,22 @@
                   <div class="modal-body">
                     <form id="editProducts">
                       <input type="hidden" name="gameId" id="gameId">
-                      <div class="mb-3">
+                      <button type="button" hidden class="btn btn-primary" id="liveToastBtn" onclick="toast()">Show live toast</button>
+
+                      <div class="toast-container position-fixed top-0 end-0 p-3">
+                      <div id="liveToast" class="toast" role="alert" aria-live=
+                      "assertive" aria-atomic="true">
+                        <div class="toast-header">
+                          <strong class="me-auto">Alerta</strong>
+                          <small>1 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                        afafa
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-3">
                         <label for="name" class="form-label">Nombre del producto</label>
                         <input type="text" class="form-control" name="name"id="nameEdit" aria-describedby="emailHelp">
                         <div id="emailHelp" class="form-text">Agregue el producto que desee</div>
