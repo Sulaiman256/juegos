@@ -6,6 +6,14 @@ var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
 const url = new URL(window.location.href);
 const productoId = url.searchParams.get("id");
 
+
+
+
+
+
+
+
+
 const datosProductos = async () => { 
   const { data, error } = await supabase
   .from('productos')
@@ -33,7 +41,7 @@ const datosProductos = async () => {
                       <td class="text-center"><button type="button" id="delete-button" onclick="deleteProducto(${data[x].id})" class="btn btn-danger">Borrar</button>
                       </button>
                       </td>
-                      <td class="text-center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar" onclick="datosCampos(${data[x].id})">Editar</button>  
+                      <td class="text-center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar" onclick="editarProductos(${data[x].id})" id="editForm">Editar</button>  
 
                       </td>
                       
@@ -41,6 +49,8 @@ const datosProductos = async () => {
                   </tr>`   
   }
   document.querySelector("#rows").innerHTML=rows
+
+
 }  
   
 
@@ -73,10 +83,10 @@ datosProductos()
   const toast = new bootstrap.Toast(toastLiveExample)
   toast.show()
  }
-async function insertProduct(nombre, plataforma, imagen, precio){
+async function insertProduct(nombre, platforms_id, imagen, precio){
   const { error } = await supabase
   .from('productos')
-  .insert({ nombre:nombre,plataforma:plataforma,imagen:imagen,precio:precio })
+  .insert({ nombre:nombre,platformId:platforms_id,imagen:imagen,precio:precio })
   if (error) {
     console.log(error)
     return false
@@ -85,11 +95,11 @@ async function insertProduct(nombre, plataforma, imagen, precio){
 }
 
 
-const checkProductExists = async(nombre, plataforma,imagen,precio) => {
+const checkProductExists = async(nombre, platforms_id,imagen,precio) => {
   const { data, error } = await supabase
   .from('productos')
   .select('*')
-  .match({nombre:nombre, plataforma:plataforma, imagen:imagen, precio:precio })
+  .match({nombre:nombre, platformId:platforms_id, imagen:imagen, precio:precio })
   .maybeSingle()
 
   if (error) {
@@ -107,11 +117,11 @@ const checkProductExists = async(nombre, plataforma,imagen,precio) => {
 
 
 
-const handleregisterProduct = async(ProductExists, nombre, plataforma, imagen, precio) => {
+const handleregisterProduct = async(ProductExists, nombre, platforms_id, imagen, precio) => {
   console.log(ProductExists)
   if( ProductExists === false){
 
-    const signup = await insertProduct(nombre, plataforma, imagen, precio)
+    const signup = await insertProduct(nombre, platforms_id, imagen, precio)
 
     if (signup === true) {   //alert alert-success
       document.querySelector('.toast-body').innerHTML = '<div class="alert alert-success">Cuenta creada!!!</div>'
@@ -131,7 +141,7 @@ const handleregisterProduct = async(ProductExists, nombre, plataforma, imagen, p
 async function InsertProduct(event){
   event.preventDefault()
     let name = document.getElementById("name").value
-    let plataforma = document.getElementById("plataforma").value
+    let plataforma = document.getElementById("selectorPlatform").value
     let imagen = document.getElementById("imagen").value
     let precio = document.getElementById("precio").value
 
@@ -142,6 +152,82 @@ async function InsertProduct(event){
     toast()
     
 }
+const optionsPlatforms = async () => { 
+  const { data, error } = await supabase
+  .from('platforms')
+  .select('*')
+    if (error) {
+      console.log(error)
+      return false
+  }
+  
+  if (data == null) {
+      return false
+  }
+  let optionsPlatforms = `
+  <option selected>Seleccione la plataforma</option>
+  <option value="1">${data[0].plataforma}</option>
+  <option value="2">${data[1].plataforma}</option>
+  <option value="3">${data[2].plataforma}</option>
+  <option value="4">${data[3].plataforma}</option>
+  <option value="5">${data[4].plataforma}</option>
+
+`
+document.querySelector("#selectorPlatform").innerHTML = optionsPlatforms
+
+}
+
+optionsPlatforms()
+
+const EditarProductos = async (id) => {
+  // Primero, recupera los datos del producto específico utilizando el ID
+  const { data, error } = await supabase
+    .from("productos")
+    .select("*")
+    .eq("id", id)
+
+  if (error) {
+    console.log(error);
+    return false;
+  }
+
+  if (data == null) {
+    return false;
+  }
+
+  // Luego, asigna los valores recuperados a los inputs correspondientes en el formulario de edición
+  document.querySelector("#nameEdit").value = data[0].nombre;
+  document.querySelector("#plataformaEdit").value = data[0].platformId;
+  document.querySelector("#imagenEdit").value = data[0].imagen;
+  document.querySelector("#precioEdit").value = data[0].precio;
+
+  // Añade un evento al botón "Editar" para actualizar los datos
+  document.querySelector("#editForm").addEventListener("click", async () => {
+    // Recupera los nuevos valores de los inputs
+    const nameEdit = document.querySelector("#nameEdit").value;
+    const platformaEdit = document.querySelector("#plataformaEdit").value;
+    const ImagenEdit = document.querySelector("#imagenEdit").value;
+    const precioEdit= document.querySelector("#precioEdit").value;
+
+    // Realiza la actualización en la base de datos utilizando el método .update()
+    const { data, error } = await supabase
+      .from("productos")
+      .update({ nombre: nameEdit, platformId: platformaEdit, imagen: ImagenEdit, precio: precioEdit })
+      .eq("id", id)
+
+    if (error) {
+      console.log(error);
+      return false;
+    }
+
+    console.log("Registro actualizado correctamente");
+  });
+};
+
+EditarProductos()
+
+
+
 
 
 
