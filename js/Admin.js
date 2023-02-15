@@ -5,15 +5,6 @@ var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
 const url = new URL(window.location.href);
 const productoId = url.searchParams.get("id");
-
-
-
-
-
-
-
-
-
 const datosProductos = async () => { 
   const { data, error } = await supabase
   .from('productos')
@@ -41,7 +32,7 @@ const datosProductos = async () => {
                       <td class="text-center"><button type="button" id="delete-button" onclick="deleteProducto(${data[x].id})" class="btn btn-danger">Borrar</button>
                       </button>
                       </td>
-                      <td class="text-center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar" onclick="editarProductos(${data[x].id})" id="editForm">Editar</button>  
+                      <td class="text-center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar" onclick="EditarProductos(${data[x].id})" id="editForm">Editar</button>  
 
                       </td>
                       
@@ -224,7 +215,7 @@ const EditarProductos = async (id) => {
   });
 };
 
-EditarProductos()
+
 
 
 

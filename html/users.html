@@ -2,7 +2,7 @@
   <html lang="en">
 
     <head>
-      <title>Admin</title>
+      <title>Users</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="../css/stylesVideojuegos.css">
@@ -25,6 +25,7 @@
     </head>
 
     <body>
+      <body>
         <div id="header">
         <div class="row">
           <div class="col-md-2 offset-md-1">
@@ -69,6 +70,66 @@
              </div>
             </div>
           </nav>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 offset-md-4 pt-4">
+            <h3>Gestión de Usuarios</h3>
+          </div>
+            <div class="modal fade" id="editar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Usuarios</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="editUsers">
+                      <input type="hidden" name="gameId" id="gameId">
+                      <button type="button" hidden class="btn btn-primary" id="liveToastBtn" onclick="toast()">Show live toast</button>
+                      <div class="toast-container position-fixed top-0 end-0 p-3">
+                      <div id="liveToast" class="toast" role="alert" aria-live=
+                      "assertive" aria-atomic="true">
+                        <div class="toast-header">
+                          <strong class="me-auto">Alerta</strong>
+                          <small>1 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                        afafa
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" name="name"id="nameEdit" aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">Edite el nombre de usuario</div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="plataforma" class="form-label">Contraseña</label>
+                        <input type="text" class="form-control" name="passwordEdit" id="passwordEdit">
+                        <div id="emailHelp" class="form-text">Edite la contraseña del usuario</div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="imagen" class="form-label">Email</label>
+                        <input type="email" class="form-control" name="Email" id="emailEdit">
+                        <div id="emailHelp" class="form-text">Edite el correo Electronico del usuario</div>
+                      </div>
+                      <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Recordar</label>
+                      </div>
+                      <button type="submit" class="btn btn-primary" id="editForm" onclick="EditarUsuarios(event)">Editar</button>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"  >Finalizar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="card-body">

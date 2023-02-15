@@ -33,7 +33,7 @@ const datosUsuarios = async () => {
                       <td class="text-center"><button type="button" id="delete-button" onclick="deleteUsuarios(${data[x].id})" class="btn btn-danger">Borrar</button>
                       </button>
                       </td>
-                      <td class="text-center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar" onclick="datosCampos(${data[x].id})">Editar</button>  
+                      <td class="text-center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar" onclick="EditarUsuarios(${data[x].id})">Editar</button>  
 
                       </td>
                       
@@ -62,6 +62,55 @@ async function deleteUser(id){
 }
 
 deleteUser()
+
+const EditarUsuarios = async (id) => {
+  // Primero, recupera los datos del producto específico utilizando el ID
+  const { data, error } = await supabase
+    .from("usuarios")
+    .select("*")
+    .eq("id", id)
+
+  if (error) {
+    console.log(error);
+    return false;
+  }
+
+  if (data == null) {
+    return false;
+  }
+
+  // Luego, asigna los valores recuperados a los inputs correspondientes en el formulario de edición
+  document.querySelector("#nameEdit").value = data[0].name;
+  document.querySelector("#passwordEdit").value = data[0].password;
+  document.querySelector("#emailEdit").value = data[0].email;
+
+  // Añade un evento al botón "Editar" para actualizar los datos
+  document.querySelector("#editForm").addEventListener("click", async () => {
+    // Recupera los nuevos valores de los inputs
+    const nameEdit = document.querySelector("#nameEdit").value;
+    const passwordEdit = document.querySelector("#passwordEdit").value;
+    const emailEdit= document.querySelector("#emailEdit").value;
+
+    // Realiza la actualización en la base de datos utilizando el método .update()
+    const { data, error } = await supabase
+      .from("usuarios")
+      .update({ name: nameEdit,password:passwordEdit, email:emailEdit })
+      .eq("id", id)
+
+    if (error) {
+      console.log(error);
+      return false;
+    }
+
+    console.log("Registro actualizado correctamente");
+  });
+};
+
+
+
+
+
+
 
 
 
