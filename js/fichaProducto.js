@@ -150,38 +150,20 @@ const fetchComments = async() => {
    document.querySelector("#display-comments").innerHTML= comentariosdates
    document.querySelector('#comment-content').value= ""
 }
- 
-
-// const displayComments = (array) => {
-  
-//   array.forEach(comment => {
-//     const divComments = document.querySelector('#display-comments')
-//     const newDiv = divComments.appendChild(document.createElement('div'))
-//      newDiv.textContent = comment.comentarios
-//     console.log(comment)
-//   })
-  
-// }
 
 
 
-// displayComments(data)
-
-  
-  
-
-  //   const commentForm = document.getElementById("comment-form")
-  //  commentForm.addEventListener("submit", e =>{
-  //    e.preventDefault()
-  //    const commentContent = document.getElementById("comment-content").value;
-  //   //const commentAuthor = document.getElementById("comment-author").value;
-  
-  //   const divComments = document.querySelector('#display-comments')
-  //   const newDiv = divComments.appendChild(document.createElement('div'))
-  //   newDiv.textContent = commentContent
-
-  //  })
-   
 
 
-  
+function ShowOrHideComments() {
+  var x = document.getElementById("comments-display");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+
+
+

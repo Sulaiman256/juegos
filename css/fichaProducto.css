@@ -72,6 +72,19 @@ html{
   font-family: 'Raleway', sans-serif;
   }
 
-
-
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .card {
+    width: calc(20% - 10px);
+    height: 200px;
+    border: 1px solid black;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  .card:hover {
+    background-color: gray;
+  }
   
