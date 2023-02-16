@@ -71,7 +71,7 @@
           <div class="col-md-12 p-0">
             <ul id="lista1">
               <li>
-                  <a href="#">Contenido</a>
+                  <span class="separador"></span><a href="#" onclick="ShowOrHideComments()">Videos</a>
               </li>
               <li>
                   <span class="separador"></span><a href="#">Videos</a>
@@ -88,27 +88,28 @@
           </ul>
           </div>
         </div>
-       <div class="row">
-        <div class="col-md-12"> 
-          <div id="comentarios"class="row p-2 pt-5">
-            <h4 class="pt-3">
-              Comentarios
-            </h4>
-             <h6 id="comment-author" class="pt-5">Nombre usuario</h6>
-             <form id="comment-form" action="">
-              <textarea name="Poner comentario" id="comment-content" cols="170" rows="10" ></textarea>
-              <div class="pt-5">
-              <button id="submit-button" type="submit">Introducir comentario
-              </button>
-              </div>
+        <div id="comments-display">
+          <div class="row">
+            <div class="col-md-12"> 
+              <div id="comentarios"class="row p-2 pt-5">
+                <h4 class="pt-3">
+                  Comentarios
+                </h4>
+                 <h6 id="comment-author" class="pt-5">Nombre usuario</h6>
+                 <form id="comment-form" action="">
+                  <textarea name="Poner comentario" id="comment-content" cols="170" rows="10" ></textarea>
+                  <div class="pt-5">
+                  <button id="submit-button" type="submit">Introducir comentario
+                  </button>
+                  </div>
+                </div>
             </div>
+           </div>
+           <div class="row " id="display-comments">
+           </div>
         </div>
-       </div>
-       <div class="row " id="display-comments">
-        <div>
 
-        </div>
-       </div>
+        
 
      
           </div>
