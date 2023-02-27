@@ -1,9 +1,10 @@
 var SUPABASE_URL ='https://hqrvipeczxkthmaeywym.supabase.co'
 var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxcnZpcGVjenhrdGhtYWV5d3ltIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzIzMTE2NTgsImV4cCI6MTk4Nzg4NzY1OH0.hF4y8SHqqGttHJW7PXRY51mna3xubSPB-OKbGOV1JB0'
-
+var CDNURL = 'https://hqrvipeczxkthmaeywym.supabase.co/storage/v1/object/public/videos'
 const url = new URL(window.location.href);
 const productoId = url.searchParams.get("id");
 var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+
 
 window.addEventListener("load", () => {
   datosjuegos()
@@ -31,7 +32,7 @@ if (data == null) {
 console.log(data)
   let datosJuegos = `
   <div class="col-md-6">
-  <p>${data[0].gender.genero}</p>
+  <p>${data [0].gender.genero}</p>
   <p>${data[0].dev.developer}</p>
   <p>${data[0].fabricante.maker}</p>
 </div>
@@ -152,18 +153,135 @@ const fetchComments = async() => {
 }
 
 
+// function ShowOrHideComments() {
+//   var x = document.getElementById("comments-display");
+//   if (x.style.display === "none") {
+//     x.style.display = "block";
+//   } else {
+//     x.style.display = "none";
+//   }
+// }
 
+
+const videoGames = async () => {
+  const { data, error } = await supabase
+    .from('videos')
+    .select('video')
+    .match({ producto_id: productoId })
+
+  if (error) {
+    console.log(error)
+    return false
+  }
+
+  if (!data || data.length === 0) {
+    return false
+  }
+
+  console.log(data)
+
+  var videoContainer = document.getElementById("video-container");
+  videoContainer.innerHTML = "";
+
+  for (let i = 0; i < data.length; i++) {
+    var newDiv = document.createElement("div");
+    newDiv.innerHTML = `
+      <iframe  id="myVideo" width="560" height="315" src="${data[i].video}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> 
+    `;
+    videoContainer.appendChild(newDiv);
+  }
+
+  return newDiv;
+}
 
 
 function ShowOrHideComments() {
   var x = document.getElementById("comments-display");
+  var videoContainer = document.getElementById("video-container");
+
   if (x.style.display === "none") {
-    x.style.display = "block";
+    x.style.display = "block  ";
+    videoContainer.innerHTML = ""; // elimina el video si se ocultan los comentarios
   } else {
     x.style.display = "none";
+    videoGames().then(newDiv => {
+      videoContainer.appendChild(newDiv);
+    })
+  }
+}
+const screenGames = async () => {
+  const { data, error } = await supabase
+    .from('screens')
+    .select('screen')
+    .match({ producto_id: productoId })
+
+  if (error) {
+    console.log(error)
+    return false
+  }
+
+  if (!data || data.length === 0) {
+    return false
+  }
+
+  console.log(data)
+
+  var screenContainer = document.getElementById("video-container");
+  screenContainer.innerHTML = "";
+
+  for (let x = 0; x< data.length; x++) {
+    var screenDiv = document.createElement("div");
+    screenDiv.innerHTML = `
+    <img src="${data[x].screen}"> 
+    `;
+    videoContainer1.appendChild(screenDiv);
+  }
+
+  return screenDiv;
+}
+
+function ShowOrHideComments1() {
+  var x = document.getElementById("comments-display");
+  var screenContainer = document.getElementById("video-container");
+
+  if (x.style.display === "none") {
+    x.style.display = "block  ";
+    screenContainer.innerHTML = ""; // elimina el video si se ocultan los comentarios
+  } else {
+    x.style.display = "none";
+    screenGames().then(screenDiv => {
+      screenContainer.appendChild(screenDiv);
+    })
   }
 }
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
