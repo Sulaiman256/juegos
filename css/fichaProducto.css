@@ -88,5 +88,13 @@ html{
     background-color: gray;
   }
   
+  #screen-container {
+    display: flex;
+    gap: 10px;
+  }
   
+  #video-container{
+    display: flex;
+    gap: 10px;
+  }
   

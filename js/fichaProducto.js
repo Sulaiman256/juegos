@@ -209,51 +209,63 @@ function ShowOrHideComments() {
     })
   }
 }
-const screenGames = async () => {
-  const { data, error } = await supabase
-    .from('screens')
-    .select('screen')
-    .match({ producto_id: productoId })
+  const fotoGames = async () => {
+    const { data, error } = await supabase
+      .from('fotos')
+      .select('imagen')
+      .match({ producto_id: productoId })
 
-  if (error) {
-    console.log(error)
-    return false
+    if (error) {
+      console.log(error)
+      return false
+    }
+
+    if (!data || data.length === 0) {
+      return false
+    }
+
+    console.log(data)
+
+    var screenContainer = document.getElementById("screen-container");
+    screenContainer.innerHTML = "";
+
+    for (let i = 0; i < data.length; i++) {
+      var nuevoDiv = document.createElement("div");
+      nuevoDiv.innerHTML = `
+    
+      <img width="300px" src="${data[i].imagen}">
+
+      `
+  
+      console.log(nuevoDiv); // Agregamos esta línea de registro
+      screenContainer.appendChild(nuevoDiv);
+    }
+
+    return screenContainer;
   }
 
-  if (!data || data.length === 0) {
-    return false
+
+
+  function ShowOrHideFotos() {
+    var x = document.getElementById("comments-display");
+    var screenContainer = document.getElementById("screen-container");
+
+    if (x.style.display === "none") {
+      x.style.display = "block";
+      screenContainer.innerHTML = ""; // elimina el video si se ocultan los comentarios
+    } else {
+      x.style.display = "none";
+      fotoGames().then(container => {
+        screenContainer.appendChild(container);
+      }).catch(error => {
+        console.log(error);
+      });
+    }
   }
 
-  console.log(data)
 
-  var screenContainer = document.getElementById("video-container");
-  screenContainer.innerHTML = "";
 
-  for (let x = 0; x< data.length; x++) {
-    var screenDiv = document.createElement("div");
-    screenDiv.innerHTML = `
-    <img src="${data[x].screen}"> 
-    `;
-    videoContainer1.appendChild(screenDiv);
-  }
 
-  return screenDiv;
-}
-
-function ShowOrHideComments1() {
-  var x = document.getElementById("comments-display");
-  var screenContainer = document.getElementById("video-container");
-
-  if (x.style.display === "none") {
-    x.style.display = "block  ";
-    screenContainer.innerHTML = ""; // elimina el video si se ocultan los comentarios
-  } else {
-    x.style.display = "none";
-    screenGames().then(screenDiv => {
-      screenContainer.appendChild(screenDiv);
-    })
-  }
-}
 
 
 
