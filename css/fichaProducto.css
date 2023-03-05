@@ -1,6 +1,7 @@
 
 #header{
     background-color: #2f373a;
+   
   }
 #title{
     color: white;
@@ -98,3 +99,11 @@ html{
     gap: 10px;
   }
   
+.parrafo-justificado{
+  text-align: justify;
+  margin: 10px;
+  margin-right: 670px;
+}
+
+
+
