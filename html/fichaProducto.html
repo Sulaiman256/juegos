@@ -91,13 +91,16 @@
           <div class="col-md-12 p-0">
             <ul id="lista1">
               <li>
+                <span class="separador"></span><a href="#" id="contain-link" onclick="ShowOrHideContain()">Contenido</a>
+            </li>
+              <li>
                   <span class="separador"></span><a href="#" id="videos-link" onclick="ShowOrHideComments()">Videos</a>
               </li>
               <li>
                   <span class="separador"></span><a href="#" id="screens-link" onclick="ShowOrHideFotos()">Screens</a>
               </li>
               <li>    
-                  <span class="separador"></span><a href="#">Descripcion</a>
+                  <span class="separador"></span><a href="#" id="description-link" onclick="ShowOrHideDescripcion()">Descripcion</a>
               </li>
               <li>
                   <span class="separador"></span><a href="#">Ficha Tecnica</a>
@@ -114,7 +117,7 @@
                 </h4>
                  <h6 id="comment-author" class="pt-5">Nombre usuario</h6>
                  <form id="comment-form" action="">
-                  <textarea name="Poner comentario" id="comment-content" cols="170" rows="10" ></textarea>
+                  <textarea name="Poner comentario" id="comment-content" cols="165" rows="10" ></textarea>
                   <div class="pt-5">
                   <button id="submit-button" type="submit">Introducir comentario
                   </button>
@@ -140,6 +143,13 @@
 
         </div>
 
+        <div id="description-container">
+         
+        </div>
+
+        <div id="contain-container">
+
+        </div>
         
 
      

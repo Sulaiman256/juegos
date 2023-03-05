@@ -264,6 +264,116 @@ function ShowOrHideComments() {
   }
 
 
+  const descriptionGames = async () => {
+    const { data, error } = await supabase
+      .from('descripciones')
+      .select('descripcion')
+      .match({ producto_id: productoId })
+
+    if (error) {
+      console.log(error)
+      return false
+    }
+
+    if (!data || data.length === 0) {
+      return false
+    }
+
+    console.log(data)
+
+    var descriptionContainer = document.getElementById("description-container");
+    descriptionContainer.innerHTML = "";
+
+    for (let i = 0; i < data.length; i++) {
+      var divDescription = document.createElement("div");
+      divDescription.innerHTML = `
+    
+      
+      <p class="parrafo-justificado">${data[i].descripcion}</p>
+      
+
+      `
+  
+      console.log(divDescription); // Agregamos esta línea de registro
+      descriptionContainer.appendChild(divDescription);
+    }
+
+    return descriptionContainer;
+  }
+
+  function ShowOrHideDescripcion() {
+    var x = document.getElementById("comments-display");
+    var descriptionContainer = document.getElementById("description-container");
+
+    if (x.style.display === "none") {
+      x.style.display = "block";
+      descriptionContainer.innerHTML = ""; // elimina el video si se ocultan los comentarios
+    } else {
+      x.style.display = "none";
+      descriptionGames().then(container => {
+        descriptionContainer.appendChild(container);
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+  }
+
+  const gameContent = async () => {
+    const { data, error } = await supabase
+      .from('contenidos')
+      .select('contenido')
+      .match({ producto_id: productoId })
+
+    if (error) {
+      console.log(error)
+      return false
+    }
+
+    if (!data || data.length === 0) {
+      return false
+    }
+
+    console.log(data)
+
+    var containContainer = document.getElementById("contain-container");
+    containContainer.innerHTML = "";
+
+    for (let i = 0; i < data.length; i++) {
+      var divContain = document.createElement("div");
+      divContain.innerHTML = `
+    
+      
+      <p class="parrafo-justificado">${data[i].contenido}</p>
+      
+
+      `
+  
+      console.log(divContain); // Agregamos esta línea de registro
+      containContainer.appendChild(divContain);
+    }
+
+    return containContainer;
+  }
+
+  function ShowOrHideContain() {
+    var x = document.getElementById("comments-display");
+    var containContainer = document.getElementById("contain-container");
+
+    if (x.style.display === "none") {
+      x.style.display = "block";
+      containContainer.innerHTML = ""; // elimina el video si se ocultan los comentarios
+    } else {
+      x.style.display = "none";
+      gameContent().then(container => {
+        containContainer.appendChild(container);
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+  }
+
+
+
 
 
 
