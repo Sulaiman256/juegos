@@ -161,22 +161,10 @@ const fetchComments = async () => {
     const usuario = comment.usuarios;
     const usuarioNombre = usuario ? usuario.name : '';
     const user_Id = comment.user_Id;
-    const { data: userData, error: userError } = await supabase
-      .from('auth.users')
-      .select('email')
-      .eq('id', user_Id);
-      
-    if (userError) {
-      console.log(userError.message);
-      return;
-    }
-
-    const userEmail = userData[i] ? userData[i].email : '';
-    
     comentariosdates += `
       <div class="comentario-info">
         <img src="../images/imagenUsuario.png" width="35px">
-        <strong class="user">${userEmail || usuarioNombre}</strong>
+        <strong class="user">${user_Id || usuarioNombre}</strong>
         <p class="fecha">${new Date(comment.date).toLocaleDateString()}</p>
       </div>
       <div>
