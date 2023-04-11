@@ -73,47 +73,86 @@
           <div class="offset-md-3 col-md-2 pt-4">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
               data-bs-target="#exampleModal" id="user-modal">
-              <span class="material-symbols-rounded" id="user_icon">
-                account_circle
-              </span>
-            </button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-              data-bs-target="#exampleModal" id="user-modal">
               <span class="material-symbols-outlined" id="cesta">
                 shopping_cart_checkout
               </span>
             </button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-              data-bs-target="#exampleModal" id="user-modal">
+              <a href="../html/InicioDeSesion.html">
+                <button type="button" class="btn btn-primary" id="user-modal">
+                  <span class="material-symbols-rounded" id="user_icon">
+                    account_circle
+                  </span>
+              </a>
+              
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#configModal" id="user-modal">
               <span class="material-symbols-outlined" id="settings">
                 settings
               </span>
             </button>
             
-          </div>
-          </span>
-        </div>
-        <nav class="navbar navbar-expand-lg  pb-2">
-          <div class="container">
-           <div class="col-md-8 offset-md-4">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <div class="navbar-nav" >
-                <a class="nav-link active" aria-current="page" href="http://127.0.0.1:5500/html/Paginajuegos.html" style="color:white ;">Home</a>
-                <a class="nav-link" href="http://127.0.0.1:5500/html/users.html" style="color:white ;">Users</a>
-                <a class="nav-link" href="#" style="color:white ;">Pricing</a>
-                <a class="nav-link active" aria-current="page" href="../html/Admin.html" style="color:white ;">Admin</a>
-                <a class="nav-link" href="#" style="color:white ;">Features</a>
-                <a class="nav-link" href="#" style="color:white ;">Pricing</a>
+            <!--Modal de Configuración-->
+            <div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="configModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="configModalLabel">Configuración de Usuario</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+                      <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" class="form-control" id="nameEdit" placeholder="Ingrese su nombre">
+                      </div>
+                      <div class="form-group">
+                        <label for="contraseña">Contraseña:</label>
+                        <input type="password" class="form-control" id="passwordEdit" placeholder="Ingrese su contraseña">
+                      </div>
+                      <div class="form-group">
+                        <label for="correo">Correo electrónico:</label>
+                        <input type="email" class="form-control" id="emailEdit" placeholder="Ingrese su correo electrónico">
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger">Cerrar sesión</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="EditUsers">Guardar Cambios</button>
+                  </div>
+                </div>
               </div>
             </div>
-           </div>
-          </div>
-        </nav>
+            
       </div>
-      </div>
+        </div>
+        <div class="container-fluid">
+          <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+              <div class="col-md-8 offset-md-4">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                  <div class="navbar-nav ml-auto">
+                    <a class="nav-link active" aria-current="page" href="http://127.0.0.1:5500/html/Paginajuegos.html" style="color:white ;">Home</a>
+                    <a class="nav-link" href="http://127.0.0.1:5500/html/users.html" style="color:white ;">Users</a>
+                    <a class="nav-link" href="#" style="color:white ;">Pricing</a>
+                    <a class="nav-link active" aria-current="page" href="../html/Admin.html" style="color:white ;">Admin</a>
+                    <a class="nav-link" href="#" style="color:white ;">Features</a>
+                    <a class="nav-link" href="#" style="color:white ;">Pricing</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nav>
+          
+          
+        </div>
+        </div>
+        </div>
+        
     <div class="container">
       <div id="row">
         <div class="input-group pt-5">
@@ -132,6 +171,9 @@
           integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
           crossorigin="anonymous"></script>
         <script src="../js/main.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
       
     </body>
   

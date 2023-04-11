@@ -32,11 +32,12 @@
           width="170px" height="170px">
       </div>
       <div class="offset-md-3 col-md-2 pt-4">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-          data-bs-target="#exampleModal" id="user-modal">
-          <span class="material-symbols-rounded" id="user_icon">
-            account_circle
-          </span>
+        <a href="../html/InicioDeSesion.html">
+          <button type="button" class="btn btn-primary" id="user-modal">
+            <span class="material-symbols-rounded" id="user_icon">
+              account_circle
+            </span>
+        </a>
         </button>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
           data-bs-target="#exampleModal" id="user-modal">
@@ -78,7 +79,6 @@
       <div class="col-md-8">
         <div class="row pt-5">
           <div class="col-md-6 text-center">
-             <h4>Valoracion:</h4>
             <p id="precioId" class="pt-3">64,95$</p>
             <button type="button" class="btn btn-secondary">Comprar</button>
             <div class="dropdown pt-4">
@@ -97,13 +97,10 @@
                   <span class="separador"></span><a href="#" id="videos-link" onclick="ShowOrHideComments()">Videos</a>
               </li>
               <li>
-                  <span class="separador"></span><a href="#" id="screens-link" onclick="ShowOrHideFotos()">Screens</a>
+                  <span class="separador"></span><a href="#" id="screens-link" onclick="ShowOrHideFotos()">Imagenes</a>
               </li>
               <li>    
                   <span class="separador"></span><a href="#" id="description-link" onclick="ShowOrHideDescripcion()">Descripcion</a>
-              </li>
-              <li>
-                  <span class="separador"></span><a href="#">Ficha Tecnica</a>
               </li>
           </ul>
           </div>
@@ -111,21 +108,23 @@
         <div id="comments-display">
           <div class="row">
             <div class="col-md-12"> 
-              <div id="comentarios"class="row p-2 pt-5">
-                <h4 class="pt-3">
-                  Comentarios
-                </h4>
-                 <h6 id="comment-author" class="pt-5">Nombre usuario</h6>
-                 <form id="comment-form" action="">
-                  <textarea name="Poner comentario" id="comment-content" cols="165" rows="10" ></textarea>
+              <div id="comentarios" class="row p-2 pt-5">
+                <h4 class="pt-3">Comentarios</h4>
+                <form id="comment-form" action="">
+                  <textarea name="Poner comentario" id="comment-content" cols="165" rows="10"></textarea>
                   <div class="pt-5">
-                  <button id="submit-button" type="submit">Introducir comentario
-                  </button>
+                    <button id="submit-button" type="submit" class="btn btn-dark">Introducir comentario</button>
                   </div>
+                </form>
+                <div id="display-comments">
+                  
                 </div>
+              </div>
             </div>
-           </div>
-           <div class="row " id="display-comments">
+          </div>
+        </div>
+        
+            
            </div>
         </div>
         <div id="video-container" >
@@ -150,8 +149,12 @@
         <div id="contain-container">
 
         </div>
-        
 
+        <div id="contain-datasheet">
+          
+        </div>
+        
+       
      
           </div>
         </div>

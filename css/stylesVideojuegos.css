@@ -109,3 +109,11 @@ th, td {
   border: 1px solid #2f373a;
 }
 
+.navbar-light .navbar-toggler {
+  color: #fff;
+  background-color: #fff;
+  border-color: #fff;
+}
+
+
+

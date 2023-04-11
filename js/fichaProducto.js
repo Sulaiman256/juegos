@@ -32,7 +32,7 @@ if (data == null) {
 console.log(data)
   let datosJuegos = `
   <div class="col-md-6">
-  <p>${data [0].gender.genero}</p>
+  <p>${data[0].gender.genero}</p>
   <p>${data[0].dev.developer}</p>
   <p>${data[0].fabricante.maker}</p>
 </div>
@@ -101,56 +101,117 @@ document.querySelector("#display-comments").innerHTML = resultscomments
 
 
 
-const commentForm = document.getElementById("comment-form")
+const commentForm = document.getElementById("comment-form");
 
-commentForm.addEventListener("submit", e =>{
- e.preventDefault()
- console.log("este es el producto id ",productoId);
- const comentarios = document.getElementById("comment-content").value;
-    supabase
-      .from('comments')
-      .insert({comentarios:comentarios, productId:productoId })
-      .then((Response)=>{
-        console.log("comentario insertado correctamente", Response)
-        fetchComments()
-      })
-      .catch((error)=>{
-        console.error("error al insertar comentario", error)
-      })
-  
+commentForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  console.log("este es el producto id ",productoId);
+  const currentDate = new Date(); //fecha actual
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentDay = currentDate.getDate();
+  const parseCurrentDate = `${currentYear}-${currentMonth}-${currentDay}`;
+  const comentarios = document.getElementById("comment-content").value;
+  const session = await supabase.auth.getSession();
+  if (!session || session.provider !== 'google') {
+    alert('Debes iniciar sesión con Google para dejar un comentario.');
+    return;
+  }
+  const user_Id = session.data.session.user.id;
+  supabase
+    .from('comments')
+    .insert({ comentarios, productId:productoId, date:parseCurrentDate, user_Id:user_Id})
+    .then((Response)=>{
+      console.log("comentario insertado correctamente", Response);
+      fetchComments();
+    })
+    .catch((error)=>{
+      console.error("error al insertar comentario", error);
+    })
+    console.log(user_Id);
+    console.log(session.data.session.user.email)
+});
 
 
-})
+
+// session.data.session.user.id
 
 
-const fetchComments = async() => {
 
-    const {data, error} = await supabase.from('comments').select('*').eq('productId', productoId)
+const fetchComments = async () => {
+  const { data: commentsData, error: commentsError } = await supabase
+    .from('comments')
+    .select('*, usuarios(name)')
+    .eq('productId', productoId)
+    .order('id', { ascending: false });
 
-    if (error) {
-      console.log(error.message)
-      return
+  if (commentsError) {
+    console.log(commentsError.message);
+    return;
+  }
+
+  if (commentsData.length === 0) {
+    document.querySelector('#display-comments').innerHTML = 'No hay comentarios';
+    return;
+  }
+
+  var comentariosdates = '';
+  for (let i = 0; i < commentsData.length; i++){
+    const comment = commentsData[i];
+    const usuario = comment.usuarios;
+    const usuarioNombre = usuario ? usuario.name : '';
+    const user_Id = comment.user_Id;
+    const { data: userData, error: userError } = await supabase
+      .from('auth.users')
+      .select('email')
+      .eq('id', user_Id);
+      
+    if (userError) {
+      console.log(userError.message);
+      return;
     }
 
-   if (data.length === 0) {
-    document.querySelector('#display-comments').innerHTML= "no hay comentarios"
-      return
-   }
-   console.log(data)
-   
-   var comentariosdates = ""
+    const userEmail = userData[i] ? userData[i].email : '';
+    
+    comentariosdates += `
+      <div class="comentario-info">
+        <img src="../images/imagenUsuario.png" width="35px">
+        <strong class="user">${userEmail || usuarioNombre}</strong>
+        <p class="fecha">${new Date(comment.date).toLocaleDateString()}</p>
+      </div>
+      <div>
+        <p class="texto">${comment.comentarios}</p>
+      </div>
+    `
+  }
 
-   for(let i = 0;i<data.length;i++){
-     comentariosdates = comentariosdates +`
-     <div>
-     ${data[i].comentarios}
-     </div>
-    </div>
-     `
-   }
-   document.querySelector("#display-comments").innerHTML= comentariosdates
-   document.querySelector('#comment-content').value= ""
+  document.querySelector('#display-comments').innerHTML = comentariosdates;
+  document.querySelector('#comment-content').value = '';
 }
+
+
+
+
+
+// session.data.session.user.id
+
+supabase.auth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_IN') {
+    // El usuario ha iniciado sesión correctamente
+    console.log('El usuario ha iniciado sesión con éxito');
+    const user = session.user; // Obtener el objeto de usuario
+    console.log(user.id); // Mostrar el ID del usuario
+    console.log(user.email); // Mostrar el correo electrónico del usuario
+    console.log(user.user_metadata); // Mostrar cualquier metadato adicional del usuario
+    console.log(user.user_metadata.name)
+    console.log(user.user_metadata.email)
+  } else if (event === 'SIGNED_OUT') {
+    // El usuario ha cerrado sesión correctamente
+    console.log('El usuario ha cerrado sesión con éxito');
+  }
+});
+
+// const user_Id = data[i].user_Id;
 
 
 // function ShowOrHideComments() {
@@ -290,7 +351,7 @@ function ShowOrHideComments() {
     
       
       <p class="parrafo-justificado">${data[i].descripcion}</p>
-      
+  
 
       `
   
@@ -372,10 +433,7 @@ function ShowOrHideComments() {
     }
   }
 
-
-
-
-
+  
 
 
 

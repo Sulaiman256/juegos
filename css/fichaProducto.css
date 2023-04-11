@@ -105,5 +105,17 @@ html{
   margin-right: 670px;
 }
 
+.comentario-info .user{
+  margin-right: 30px;
+}
+.comentario-info img{
+  margin-right: 30px;
+}
 
+.comentario-info{
+  display: flex;
+}
+.comentario .texto {
+ margin-top: 20px;
 
+}
