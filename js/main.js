@@ -1,19 +1,14 @@
-var SUPABASE_URL ='https://hqrvipeczxkthmaeywym.supabase.co'
-var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxcnZpcGVjenhrdGhtYWV5d3ltIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzIzMTE2NTgsImV4cCI6MTk4Nzg4NzY1OH0.hF4y8SHqqGttHJW7PXRY51mna3xubSPB-OKbGOV1JB0'
+
+// Definir las variables de Supabase y crear la instancia
+var SUPABASE_URL = 'https://hqrvipeczxkthmaeywym.supabase.co';
+var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxcnZpcGVjenhrdGhtYWV5d3ltIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzIzMTE2NTgsImV4cCI6MTk4Nzg4NzY1OH0.hF4y8SHqqGttHJW7PXRY51mna3xubSPB-OKbGOV1JB0';
 
 var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
   const gamesBD = async () => { 
     const { data, error } = await supabase
     .from('productos')
-    .select('*, platforms(plataforma)')
-    if (error) {
-      console.log(error)
-      return false
-  }
-
-  if (data == null) {
-      return false
-  }
+    .select(`
+      imagen, platforms(plataforma)`)
 
   console.log(data)
 
