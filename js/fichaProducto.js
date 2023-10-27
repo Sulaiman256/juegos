@@ -141,7 +141,7 @@ commentForm.addEventListener("submit", async e => {
 const fetchComments = async () => {
   const { data: commentsData, error: commentsError } = await supabase
     .from('comments')
-    .select('*, usuarios(name)')
+     .select('*, usuarios(name)')
     .eq('productId', productoId)
     .order('id', { ascending: false });
 

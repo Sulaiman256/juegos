@@ -1,46 +1,35 @@
-var SUPABASE_URL ='https://hqrvipeczxkthmaeywym.supabase.co'
-var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxcnZpcGVjenhrdGhtYWV5d3ltIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzIzMTE2NTgsImV4cCI6MTk4Nzg4NzY1OH0.hF4y8SHqqGttHJW7PXRY51mna3xubSPB-OKbGOV1JB0'
+var SUPABASE_URL = 'https://hqrvipeczxkthmaeywym.supabase.co'
+var SUPABASE_KEY =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxcnZpcGVjenhrdGhtYWV5d3ltIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzIzMTE2NTgsImV4cCI6MTk4Nzg4NzY1OH0.hF4y8SHqqGttHJW7PXRY51mna3xubSPB-OKbGOV1JB0'
 
 var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
 
-window.addEventListener('load', async() => {
+window.addEventListener('load', async () => {
     if (await supabase.auth.getUser()) {
-        const { data: { user } } = await supabase.auth.getUser()
+        const {
+            data: { user },
+        } = await supabase.auth.getUser()
 
         console.log(user)
-        
     }
-    try{
+    try {
         const user = supabase.auth.user()
-        if(user){
-            const {id, app_metadata, user_metadata} = user
-            if(app_metadata.provider.include('google')){
-                const {nombre} = user_metadata
-                return {username: nombre}
+        if (user) {
+            const { id, app_metadata, user_metadata } = user
+            if (app_metadata.provider.include('google')) {
+                const { nombre } = user_metadata
+                return { username: nombre }
             }
-            const {data , error, status} = await supabase
-            .from('usuarios')
-            .select('id, nombre')
-            .eq('id', id)
-            .single()
+            const { data, error, status } = await supabase.from('usuarios').select('id, nombre').eq('id', id).single()
 
-            if(error && status === 406) throw new Error('un error ha ocurrido')
-            return{username:data.nombre}
-        
+            if (error && status === 406) throw new Error('un error ha ocurrido')
+            return { username: data.nombre }
         }
+    } catch (error) {}
+})
 
-    }catch (error){
-
-    }
- });
- 
-
- const checkUserExists = async(email, password) => {
-    const { data, error } = await supabase
-    .from('usuarios')
-    .select('*')
-    .match({email: email, password: password })
-    .maybeSingle()
+const checkUserExists = async (email, password) => {
+    const { data, error } = await supabase.from('usuarios').select('*').match({ email: email, password: password }).maybeSingle()
 
     if (error) {
         console.log(error)
@@ -52,35 +41,27 @@ window.addEventListener('load', async() => {
     }
 
     return data
- }
+}
 
-
- const handleLogin = (userExist) => {
+const handleLogin = (userExist) => {
     console.log(userExist)
-   if (userExist === false) {
+    if (userExist === false) {
         alert('El email o la contrasena no existe. Si no tienes cuenta, registrate!')
-         return
+        return
     }
 
     sessionStorage.setItem('user', JSON.stringify(userExist))
-    window.location.href= './Paginajuegos.html'
-    
- }
+    window.location.href = './Paginajuegos.html'
+}
 
-async function datos(){
-
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
+async function datos() {
+    let email = document.getElementById('email').value
+    let password = document.getElementById('password').value
 
     const userExist = await checkUserExists(email, password)
 
     handleLogin(userExist)
-  
 }
-
-
-
-  
 
 // supabase.auth.providers.google().then((Response)=>{
 //     console.log(Response)
@@ -95,19 +76,15 @@ async function datos(){
 //     const {error} = await supabase.auth.signOut()
 // }
 
-const loginWithGoogle = async() => {
+const loginWithGoogle = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: 'http://127.0.0.1:5500/html/Paginajuegos.html'
-        }
-      })
+            redirectTo: 'http://127.0.0.1:5500/html/Paginajuegos.html',
+        },
+    })
 
-      console.log(error, data)
+    console.log(error, data)
 }
 
 document.getElementById('logGoogle').addEventListener('click', loginWithGoogle)
-
-
-
-

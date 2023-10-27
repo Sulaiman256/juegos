@@ -1,29 +1,28 @@
-var SUPABASE_URL ='https://hqrvipeczxkthmaeywym.supabase.co'
-var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxcnZpcGVjenhrdGhtYWV5d3ltIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzIzMTE2NTgsImV4cCI6MTk4Nzg4NzY1OH0.hF4y8SHqqGttHJW7PXRY51mna3xubSPB-OKbGOV1JB0'
-
+var SUPABASE_URL = 'https://hqrvipeczxkthmaeywym.supabase.co'
+var SUPABASE_KEY =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxcnZpcGVjenhrdGhtYWV5d3ltIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzIzMTE2NTgsImV4cCI6MTk4Nzg4NzY1OH0.hF4y8SHqqGttHJW7PXRY51mna3xubSPB-OKbGOV1JB0'
 
 var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
-const url = new URL(window.location.href);
-const productoId = url.searchParams.get("id");
-const datosProductos = async () => { 
-  const { data, error } = await supabase
-  .from('productos')
-  .select('*, platforms(plataforma)')
-  
+const url = new URL(window.location.href)
+const productoId = url.searchParams.get('id')
+const datosProductos = async () => {
+    const { data, error } = await supabase.from('productos').select('*, platforms(plataforma)')
 
     if (error) {
-      console.log(error)
-      return false
-  }
-  
-  if (data == null) {
-      return false
-  }
-  data.sort((a,b)=> (a.nombre > b.nombre) ? 1 : -1);
-  console.log(data)
-  var rows = ""
-  for(let x = 0;x<data.length;x++){
-    rows = rows +`
+        console.log(error)
+        return false
+    }
+
+    if (data == null) {
+        return false
+    }
+    data.sort((a, b) => (a.nombre > b.nombre ? 1 : -1))
+    console.log(data)
+    var rows = ''
+    for (let x = 0; x < data.length; x++) {
+        rows =
+            rows +
+            `
                   <tr >
                       <td class="text-left">${data[x].nombre}</td>
                       <td class="text-center">${data[x].platforms.plataforma}</td>
@@ -37,125 +36,102 @@ const datosProductos = async () => {
                       </td>
                       
 
-                  </tr>`   
-  }
-  document.querySelector("#rows").innerHTML=rows
-
-
-}  
-  
-
+                  </tr>`
+    }
+    document.querySelector('#rows').innerHTML = rows
+}
 
 datosProductos()
 
- async function deleteproduct(id){
-  const {error} = await supabase.from('productos')
-   .delete() 
-   .eq("id", id)
-  if (error) {
-    console.log(error)
-    return
- }
-
- datosProductos()
- }
-
- function deleteProducto(id){
-   const deleteButton = document.getElementById("delete-button");
-  deleteButton.addEventListener("click", deleteproduct(id))
-   console.log(id)
-  
- }
- deleteproduct()
-
-
- const toast = () => {
-  const toastLiveExample = document.getElementById('liveToast')
-  const toast = new bootstrap.Toast(toastLiveExample)
-  toast.show()
- }
-async function insertProduct(nombre, platforms_id, imagen, precio){
-  const { error } = await supabase
-  .from('productos')
-  .insert({ nombre:nombre,platformId:platforms_id,imagen:imagen,precio:precio })
-  if (error) {
-    console.log(error)
-    return false
-  }
-  return true
+async function deleteproduct(id) {
+    const { error } = await supabase.from('productos').delete().eq('id', id)
+    datosProductos()
 }
 
-
-const checkProductExists = async(nombre, platforms_id,imagen,precio) => {
-  const { data, error } = await supabase
-  .from('productos')
-  .select('*')
-  .match({nombre:nombre, platformId:platforms_id, imagen:imagen, precio:precio })
-  .maybeSingle()
-
-  if (error) {
-      console.log(error)
-      return false
-  }
-
-  if (data == null) {
-      return false
-  }
-
-  return data
+function deleteProducto(id) {
+    const deleteButton = document.getElementById('delete-button')
+    deleteButton.addEventListener('click', deleteproduct(id))
+    console.log(id)
 }
+deleteproduct()
 
-
-
-
-const handleregisterProduct = async(ProductExists, nombre, platforms_id, imagen, precio) => {
-  console.log(ProductExists)
-  if( ProductExists === false){
-
-    const signup = await insertProduct(nombre, platforms_id, imagen, precio)
-
-    if (signup === true) {   //alert alert-success
-      document.querySelector('.toast-body').innerHTML = '<div class="alert alert-success">Cuenta creada!!!</div>'
-      return
+const toast = () => {
+    const toastLiveExample = document.getElementById('liveToast')
+    const toast = new bootstrap.Toast(toastLiveExample)
+    toast.show()
+}
+async function insertProduct(nombre, platforms_id, imagen, precio) {
+    const { error } = await supabase
+        .from('productos')
+        .insert({ nombre: nombre, platformId: platforms_id, imagen: imagen, precio: precio })
+    if (error) {
+        console.log(error)
+        return false
     }
-    
-    document.querySelector('.toast-body').innerHTML =  '<div class="alert alert-danger">No ha sido posible crearse!!!</div>'
+    return true
+}
 
-    return
-    
-  }
+const checkProductExists = async (nombre, platforms_id, imagen, precio) => {
+    const { data, error } = await supabase
+        .from('productos')
+        .select('*')
+        .match({ nombre: nombre, platformId: platforms_id, imagen: imagen, precio: precio })
+        .maybeSingle()
 
-  document.querySelector('.toast-body').innerHTML = '<div class="alert alert-danger">Los datos ya estan registrados!!!</div>'
-   
-} 
+    if (error) {
+        console.log(error)
+        return false
+    }
 
-async function InsertProduct(event){
-  event.preventDefault()
-    let name = document.getElementById("name").value
-    let plataforma = document.getElementById("selectorPlatform").value
-    let imagen = document.getElementById("imagen").value
-    let precio = document.getElementById("precio").value
+    if (data == null) {
+        return false
+    }
 
-    
+    return data
+}
+
+const handleregisterProduct = async (ProductExists, nombre, platforms_id, imagen, precio) => {
+    console.log(ProductExists)
+    if (ProductExists === false) {
+        const signup = await insertProduct(nombre, platforms_id, imagen, precio)
+
+        if (signup === true) {
+            //alert alert-success
+            document.querySelector('.toast-body').innerHTML = '<div class="alert alert-success">Cuenta creada!!!</div>'
+            return
+        }
+
+        document.querySelector('.toast-body').innerHTML = '<div class="alert alert-danger">No ha sido posible crearse!!!</div>'
+
+        return
+    }
+
+    document.querySelector('.toast-body').innerHTML = '<div class="alert alert-danger">Los datos ya estan registrados!!!</div>'
+}
+
+async function InsertProduct(event) {
+    event.preventDefault()
+    let name = document.getElementById('name').value
+    let plataforma = document.getElementById('selectorPlatform').value
+    let imagen = document.getElementById('imagen').value
+    let precio = document.getElementById('precio').value
+
     const ProductExists = await checkProductExists(name, plataforma, imagen, precio)
 
     await handleregisterProduct(ProductExists, name, plataforma, imagen, precio)
     toast()
-    
 }
-const optionsPlatforms = async () => { 
-  const { data, error } = await supabase
-  .from('platforms')
-  .select('*')
+const optionsPlatforms = async () => {
+    const { data, error } = await supabase.from('platforms').select('*')
     if (error) {
-      console.log(error)
-      return false
-  }
-  
-  if (data == null) {
-      return false
-  }
-  let optionsPlatforms = `
+        console.log(error)
+        return false
+    }
+
+    if (data == null) {
+        return false
+    }
+    let optionsPlatforms = `
   <option selected>Seleccione la plataforma</option>
   <option value="1">${data[0].plataforma}</option>
   <option value="2">${data[1].plataforma}</option>
@@ -164,92 +140,52 @@ const optionsPlatforms = async () => {
   <option value="5">${data[4].plataforma}</option>
 
 `
-document.querySelector("#selectorPlatform").innerHTML = optionsPlatforms
-
+    document.querySelector('#selectorPlatform').innerHTML = optionsPlatforms
 }
 
 optionsPlatforms()
 
 const EditarProductos = async (id) => {
-  // Primero, recupera los datos del producto específico utilizando el ID
-  const { data, error } = await supabase
-    .from("productos")
-    .select("*")
-    .eq("id", id)
-
-  if (error) {
-    console.log(error);
-    return false;
-  }
-
-  if (data == null) {
-    return false;
-  }
-
-  // Luego, asigna los valores recuperados a los inputs correspondientes en el formulario de edición
-  document.querySelector("#nameEdit").value = data[0].nombre;
-  document.querySelector("#plataformaEdit").value = data[0].platformId;
-  document.querySelector("#imagenEdit").value = data[0].imagen;
-  document.querySelector("#precioEdit").value = data[0].precio;
-
-  // Añade un evento al botón "Editar" para actualizar los datos
-  document.querySelector("#editForm").addEventListener("click", async () => {
-    // Recupera los nuevos valores de los inputs
-    const nameEdit = document.querySelector("#nameEdit").value;
-    const platformaEdit = document.querySelector("#plataformaEdit").value;
-    const ImagenEdit = document.querySelector("#imagenEdit").value;
-    const precioEdit= document.querySelector("#precioEdit").value;
-
-    // Realiza la actualización en la base de datos utilizando el método .update()
-    const { data, error } = await supabase
-      .from("productos")
-      .update({ nombre: nameEdit, platformId: platformaEdit, imagen: ImagenEdit, precio: precioEdit })
-      .eq("id", id)
+    // Primero, recupera los datos del producto específico utilizando el ID
+    const { data, error } = await supabase.from('productos').select('*,platforms(plataforma) ').eq('id', id)
 
     if (error) {
-      console.log(error);
-      return false;
+        console.log(error)
+        return false
     }
 
-    console.log("Registro actualizado correctamente");
-  });
-};
+    if (data == null) {
+        return false
+    }
 
+    // Luego, asigna los valores recuperados a los inputs correspondientes en el formulario de edición
+    document.querySelector('#nameEdit').value = data[0].nombre
+    document.querySelector('#plataformaEdit').value = data[0].platforms.plataforma
+    document.querySelector('#imagenEdit').value = data[0].imagen
+    document.querySelector('#precioEdit').value = data[0].precio
 
+    // Añade un evento al botón "Editar" para actualizar los datos
+    document.querySelector('#editForm').addEventListener('click', async () => {
+        // Recupera los nuevos valores de los inputs
+        const nameEdit = document.querySelector('#nameEdit').value
+        const platformaEdit = document.querySelector('#plataformaEdit').value
+        const ImagenEdit = document.querySelector('#imagenEdit').value
+        const precioEdit = document.querySelector('#precioEdit').value
 
+        // Realiza la actualización en la base de datos utilizando el método .update()
+        const { data, error } = await supabase
+            .from('productos')
+            .update({ nombre: nameEdit, plataforma: platformaEdit, imagen: ImagenEdit, precio: precioEdit })
+            .eq('id', id)
 
+        if (error) {
+            console.log(error)
+            return false
+        }
 
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        console.log('Registro actualizado correctamente')
+    })
+}
 
 // let BD= [
 //     {
@@ -280,70 +216,70 @@ const EditarProductos = async (id) => {
 //       imagen: "spiderman.png",
 //       precio: "39.95",
 //     },
-//     { 
-//       id: 4, 
+//     {
+//       id: 4,
 //       nombre:"Horizon Forbidden West E.edition",
 //       plataforma: "PS5",
 //       imagen: "horizonps5.png",
 //       precio:"84,95"
 //     },
-//     {  
+//     {
 //       id: 5,
 //       nombre:"Dark Souls Remastered",
 //       plataforma:"PS4",
 //       imagen: "ds1.png",
 //       precio:"26,95"
 //     },
-//     {  
+//     {
 //       id: 6,
 //       nombre:"Call Of Duty Modern Warfare II",
 //       plataforma:"Xbox One/Xbox Series S/X",
 //       imagen: "codmw2nuevo.png",
 //       precio:"69,95"
 //     },
-//     {  
+//     {
 //       id: 7,
 //       nombre:"Skyrim Anniversary Edition",
 //       plataforma:"Xbox One/Xbox Series S/X",
 //       imagen: "skyrimaniversaryedition.png",
 //       precio:"44,95"
 //     },
-//     {  
+//     {
 //       id: 8,
 //       nombre:"Call Of Duty Vanguard",
 //       plataforma:"Xbox One/Xbox Series S/X",
 //       imagen: "callofdutyvanguard.png",
 //       precio:"64,95"
 //     },
-//     { 
+//     {
 //       id: 9,
 //       nombre:"Metro Exodus Complete Edition",
 //       plataforma:"Xbox One/Xbox Series S/X",
 //       imagen: "metroexodus.png",
 //       precio:"34,95"
 //     },
-//     {  
+//     {
 //       id: 10,
 //       nombre:"S.T.A.L.K.E.R 2 Heart of Chornobyl ",
 //       plataforma:"Xbox One/Xbox Series S/X",
 //       imagen: "stalker2xboxseries.png",
 //       precio:"54,95"
 //     },
-//     {  
+//     {
 //       id: 11,
 //       nombre:"Borderlands 3 Súper Deluxe Edition",
 //       plataforma:"Xbox One/Xbox Series S/X",
 //       imagen: "bdls3.png",
 //       precio:"69,95"
 //     },
-//     {  
+//     {
 //       id: 12,
 //       nombre:"Mario Kart 8 Deluxe",
 //       plataforma:"Switch",
 //       imagen: "mariokart8deluxe.png",
 //       precio:"49,95"
 //     },
-//     {  
+//     {
 //       id: 13,
 //       nombre:"Super Mario Odyssey",
 //       plataforma:"Switch",
@@ -364,56 +300,56 @@ const EditarProductos = async (id) => {
 //       imagen: "zeldabreathofthewild.png",
 //       precio:"64,95"
 //     },
-//     { 
+//     {
 //       id: 16,
 //       nombre:"Pokémon Púrpura",
 //       plataforma:"Switch",
 //       imagen: "pokemonpurpura.png",
 //       precio:"49,95"
 //     },
-//     {  
+//     {
 //       id: 17,
 //       nombre:"Pokemon Escarlata",
 //       plataforma:"Switch",
 //       imagen: "pokemonescarlata.png",
 //       precio:"49,95"
 //     },
-//     {  
+//     {
 //       id: 18,
 //       nombre:"Dead Space Remake",
 //       plataforma:"PC",
 //       imagen: "deadspaceremake.png",
 //       precio:"54,95"
 //     },
-//     { 
+//     {
 //       id: 19,
 //       nombre:"SteelRising",
 //       plataforma:"PC",
 //       imagen: "steelrising.png",
 //       precio:"44,95"
 //     },
-//     { 
+//     {
 //       id: 20,
 //       nombre:"Red Dead Redemption 2",
 //       plataforma:"PC",
 //       imagen: "rdr2.png",
 //       precio:"54,95"
 //     },
-//     { 
-//       id: 21, 
+//     {
+//       id: 21,
 //       nombre:"Battlefield 2042",
 //       plataforma:"PC",
 //       imagen: "bt2042.png",
 //       precio:"26,95"
 //     },
-//     {  
+//     {
 //       id: 22,
 //       nombre:"FIFA 23",
 //       plataforma:"PC",
 //       imagen: "fifa23.png",
 //       precio:"59,95"
 //     },
-//     {  
+//     {
 //       id: 23,
 //       nombre:"Mafia Trilogy Edition",
 //       plataforma:"PC",
@@ -422,29 +358,27 @@ const EditarProductos = async (id) => {
 //     },
 //   ]
 
-
 // function displayHTML(BD){
-   
-  //   var rows = ""
-  //   for(let x = 0;x<BD.length;x++){
-  //     rows = rows +`
-  //                   <tr >
-  //                       <td class="text-left">${BD[x].nombre}</td>
-  //                       <td class="text-center">${BD[x].plataforma}</td>
-  //                       <td class="text-center">${BD[x].imagen}</td>
-  //                       <td class="text-center">${BD[x].precio}</td>
-  //                       <td class="text-center"><button type="button" data-id="${BD[x].id}" class="btn btn-danger">Borrar</button>
-  //                       </button>
-  //                       </td>
-  //                       <td class="text-center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar" onclick="datosCampos(${BD[x].id})">Editar</button>  
 
-  //                       </td>
-                        
+//   var rows = ""
+//   for(let x = 0;x<BD.length;x++){
+//     rows = rows +`
+//                   <tr >
+//                       <td class="text-left">${BD[x].nombre}</td>
+//                       <td class="text-center">${BD[x].plataforma}</td>
+//                       <td class="text-center">${BD[x].imagen}</td>
+//                       <td class="text-center">${BD[x].precio}</td>
+//                       <td class="text-center"><button type="button" data-id="${BD[x].id}" class="btn btn-danger">Borrar</button>
+//                       </button>
+//                       </td>
+//                       <td class="text-center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar" onclick="datosCampos(${BD[x].id})">Editar</button>
 
-  //                   </tr>`   
-  //   }
-  //   document.querySelector("#rows").innerHTML=rows
-  // }
+//                       </td>
+
+//                   </tr>`
+//   }
+//   document.querySelector("#rows").innerHTML=rows
+// }
 
 // function orderItems(){
 
@@ -456,16 +390,14 @@ const EditarProductos = async (id) => {
 //      return -1;
 //    }
 //    return 1;
-   
-//   })
 
+//   })
 
 //   displayHTML(BD)
 // }
 
 // function removeItem(evento){
- 
-    
+
 //     let id = parseInt(evento.target.getAttribute("data-id"))
 
 //     let newBD = BD.filter(item => item.id !== id)
@@ -474,7 +406,6 @@ const EditarProductos = async (id) => {
 
 //     displayHTML(BD)
 
-  
 // }
 
 // function onSubmit (e){
@@ -486,7 +417,7 @@ const EditarProductos = async (id) => {
 
 // console.log(name)
 
-// let product = {  
+// let product = {
 //  id: 25,
 // nombre:name,
 // plataforma:plataforma,
@@ -500,15 +431,14 @@ const EditarProductos = async (id) => {
 
 // function datosCampos(id){
 //   console.log(id)
-//   let juego = BD.find (item => item.id === id)  
+//   let juego = BD.find (item => item.id === id)
 //   document.forms["editProducts"]['gameId'].value = juego.id
 //   document.forms["editProducts"]['nameEdit'].value = juego.nombre
 //   document.forms["editProducts"]['plataformaEdit'].value = juego.plataforma
 //   document.forms["editProducts"]['imagenEdit'].value = juego.imagen
 //   document.forms["editProducts"]['precioEdit'].value = juego.precio
-  
-// }
 
+// }
 
 // function onSubmit2 (e){
 //   e.preventDefault()
@@ -529,12 +459,9 @@ const EditarProductos = async (id) => {
 
 //  document.querySelector('#editForm').setAttribute('data-bs-dismiss', 'modal')
 
-  
-
-
 // }
 // function mostrardatos(){
-  
+
 //   var rows = ""
 //   for(let x = 0;x<BD.length;x++){
 //     rows = rows +`
@@ -546,17 +473,15 @@ const EditarProductos = async (id) => {
 //                       <td class="text-center"><button type="button" data-id="${BD[x].id}" class="btn btn-danger">Borrar</button>
 //                       </button>
 //                       </td>
-//                       <td class="text-center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar" onclick="datosCampos(${BD[x].id})">Editar</button>  
+//                       <td class="text-center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar" onclick="datosCampos(${BD[x].id})">Editar</button>
 
 //                       </td>
-                      
 
-//                   </tr>`   
+//                   </tr>`
 //   }
 //   document.querySelector("#rows").innerHTML=rows
-  
-// }
 
+// }
 
 // window.addEventListener('load', function() {
 //   orderItems()
@@ -567,64 +492,3 @@ const EditarProductos = async (id) => {
 // document.getElementById("frmproductos").addEventListener("click", onSubmit); //add products
 
 // document.getElementById("editProducts").addEventListener("click", onSubmit2); //edit products
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-    
-  
-  

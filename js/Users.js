@@ -1,31 +1,29 @@
-
-var SUPABASE_URL ='https://hqrvipeczxkthmaeywym.supabase.co'
-var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxcnZpcGVjenhrdGhtYWV5d3ltIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzIzMTE2NTgsImV4cCI6MTk4Nzg4NzY1OH0.hF4y8SHqqGttHJW7PXRY51mna3xubSPB-OKbGOV1JB0'
-
+var SUPABASE_URL = 'https://hqrvipeczxkthmaeywym.supabase.co'
+var SUPABASE_KEY =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxcnZpcGVjenhrdGhtYWV5d3ltIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzIzMTE2NTgsImV4cCI6MTk4Nzg4NzY1OH0.hF4y8SHqqGttHJW7PXRY51mna3xubSPB-OKbGOV1JB0'
 
 var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
-const url = new URL(window.location.href);
-const productoId = url.searchParams.get("id");
+const url = new URL(window.location.href)
+const productoId = url.searchParams.get('id')
 
-const datosUsuarios = async () => { 
-  const { data, error } = await supabase
-  .from('usuarios')
-  .select('*')
-  
+const datosUsuarios = async () => {
+    const { data, error } = await supabase.from('usuarios').select('*')
 
     if (error) {
-      console.log(error)
-      return false
-  }
-  
-  if (data == null) {
-      return false
-  }
-  data.sort((a,b)=> (a.nombre > b.nombre) ? 1 : -1);
-  console.log(data)
-  var rows1 = ""
-  for(let x = 0;x<data.length;x++){
-    rows1 = rows1 +`
+        console.log(error)
+        return false
+    }
+
+    if (data == null) {
+        return false
+    }
+    data.sort((a, b) => (a.nombre > b.nombre ? 1 : -1))
+    console.log(data)
+    var rows1 = ''
+    for (let x = 0; x < data.length; x++) {
+        rows1 =
+            rows1 +
+            `
                   <tr >
                       <td class="text-left">${data[x].name}</td>
                       <td class="text-center">${data[x].email}</td>
@@ -38,85 +36,68 @@ const datosUsuarios = async () => {
                       </td>
                       
 
-                  </tr>`   
-  }
-  document.querySelector("#rows1").innerHTML=rows1
-}  
+                  </tr>`
+    }
+    document.querySelector('#rows1').innerHTML = rows1
+}
 datosUsuarios()
 
-async function deleteUser(id){
-  const {error} = await supabase.from('usuarios')
-   .delete() 
-   .eq("id", id)
-  if (error) {
-    console.log(error)
-    return
- }
+async function deleteUser(id) {
+    const { error } = await supabase.from('usuarios').delete().eq('id', id)
+    if (error) {
+        console.log(error)
+        return
+    }
 
- datosUsuarios()
- }
- function deleteUsuarios(id){
-  const deleteButton = document.getElementById("delete-button");
- deleteButton.addEventListener("click", deleteUser(id))
-  console.log(id)
+    datosUsuarios()
+}
+function deleteUsuarios(id) {
+    const deleteButton = document.getElementById('delete-button')
+    deleteButton.addEventListener('click', deleteUser(id))
+    console.log(id)
 }
 
 deleteUser()
 
 const EditarUsuarios = async (id) => {
-  // Primero, recupera los datos del producto específico utilizando el ID
-  const { data, error } = await supabase
-    .from("usuarios")
-    .select("*")
-    .eq("id", id)
-
-  if (error) {
-    console.log(error);
-    return false;
-  }
-
-  if (data == null) {
-    return false;
-  }
-
-  // Luego, asigna los valores recuperados a los inputs correspondientes en el formulario de edición
-  document.querySelector("#nameEdit").value = data[0].name;
-  document.querySelector("#passwordEdit").value = data[0].password;
-  document.querySelector("#emailEdit").value = data[0].email;
-
-  // Añade un evento al botón "Editar" para actualizar los datos
-  document.querySelector("#editForm").addEventListener("click", async () => {
-    // Recupera los nuevos valores de los inputs
-    const nameEdit = document.querySelector("#nameEdit").value;
-    const passwordEdit = document.querySelector("#passwordEdit").value;
-    const emailEdit= document.querySelector("#emailEdit").value;
-
-    // Realiza la actualización en la base de datos utilizando el método .update()
-    const { data, error } = await supabase
-      .from("usuarios")
-      .update({ name: nameEdit,password:passwordEdit, email:emailEdit })
-      .eq("id", id)
+    // Primero, recupera los datos del producto específico utilizando el ID
+    const { data, error } = await supabase.from('usuarios').select('*').eq('id', id)
 
     if (error) {
-      console.log(error);
-      return false;
+        console.log(error)
+        return false
     }
 
-    console.log("Registro actualizado correctamente");
-  });
-};
+    if (data == null) {
+        return false
+    }
 
+    // Luego, asigna los valores recuperados a los inputs correspondientes en el formulario de edición
+    document.querySelector('#nameEdit').value = data[0].name
+    document.querySelector('#passwordEdit').value = data[0].password
+    document.querySelector('#emailEdit').value = data[0].email
 
+    // Añade un evento al botón "Editar" para actualizar los datos
+    document.querySelector('#editForm').addEventListener('click', async () => {
+        // Recupera los nuevos valores de los inputs
+        const nameEdit = document.querySelector('#nameEdit').value
+        const passwordEdit = document.querySelector('#passwordEdit').value
+        const emailEdit = document.querySelector('#emailEdit').value
 
+        // Realiza la actualización en la base de datos utilizando el método .update()
+        const { data, error } = await supabase
+            .from('usuarios')
+            .update({ name: nameEdit, password: passwordEdit, email: emailEdit })
+            .eq('id', id)
 
+        if (error) {
+            console.log(error)
+            return false
+        }
 
-
-
-
-
-
-
-
+        console.log('Registro actualizado correctamente')
+    })
+}
 
 // let BDUsuarios = [ {
 //     id: 50,
@@ -149,7 +130,7 @@ const EditarUsuarios = async (id) => {
 //        return -1;
 //      }
 //      return 1;
-     
+
 //     })
 //   function d (BDUsuarios){
 //     var rows = ""
@@ -163,22 +144,22 @@ const EditarUsuarios = async (id) => {
 //                           <td class="text-center"><button type="button" data-id1="${BDUsuarios[i].id}" class="btn btn-danger">Borrar</button>
 //                           </button>
 //                           </td>
-//                       </tr>`  
-  
+//                       </tr>`
+
 //   }
 //   document.querySelector("#rows1").innerHTML=rows
 //   }
 //   d(BDUsuarios)
-  
+
 //   document.querySelector("#tabla1").addEventListener("click", (p)=>{
-      
+
 //     let id = parseInt(p.target.getAttribute("data-id1"))
 //     //confirm("Vas a borrar este producto " + BDUsuarios[id].usuario)
-  
+
 //     let newBDUsuarios = BDUsuarios.filter(item => item.id !== id)
-  
-//     console.log(newBDUsuarios) 
+
+//     console.log(newBDUsuarios)
 //     BDUsuarios = newBDUsuarios
-  
+
 //     d(BDUsuarios)
 //   });
